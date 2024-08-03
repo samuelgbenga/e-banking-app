@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  ebanking-app:
+    image: ebanking:latest
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_APPLICATION_NAME: ebanking
+      SPRING_MAIN_ALLOW_BEAN_DEFINITION_OVERRIDING: "true"
+      SPRING_MAIN_LAZY_INITIALIZATION: "true"
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/niger_bankdb
+      SPRING_DATASOURCE_USERNAME: samuel
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: "true"
+    depends_on:
+      - mysql-container
+
+  mysql-container:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql-pass
+      MYSQL_DATABASE: niger_bankdb
+      MYSQL_USER: samuel
+      MYSQL_PASSWORD: 1234
+    ports:
+      - "3306:3306"
